@@ -14,15 +14,14 @@
 # on GitHub Pages it is your github repository's name prefixed with a /
 #baseurl: /collectionbuilder-gh 
 # location of code, the full url to your github repository
-source-code: https://github.com/CollectionBuilder/collectionbuilder-sheets
-
+source-code: https://github.com/TybaltAurelius/japan-travel
 ##########
 # SITE SETTINGS
 #
 # title of site appears in banner
-title: Nihon Is Where the Heart Is
+title: "Nihon Is Where the Heart Is"
 # tagline, a short phrase that will appear throughout the site in the top banner
-tagline: Travels Across Japan
+tagline: "Memories and Photographs from Travels in Japan"
 # description appears in meta tags and other locations
 # this description might appear in search result lists, keep around 160 characters max
 description: "A collection of photos from traveling throughout Japan over the years."
