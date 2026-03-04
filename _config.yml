@@ -20,14 +20,14 @@ source-code: https://github.com/CollectionBuilder/collectionbuilder-sheets
 # SITE SETTINGS
 #
 # title of site appears in banner
-title: CollectionBuilder-Sheets
+title: Nihon Is Where the Heart Is
 # tagline, a short phrase that will appear throughout the site in the top banner
-tagline: a template for creating simple digital exhibits
+tagline: Travels Across Japan
 # description appears in meta tags and other locations
 # this description might appear in search result lists, keep around 160 characters max
-description: "CollectionBuilder-Sheets is a template for creating simple digital exhibit websites by loading collection metadata directly from a CSV, designed for teaching digital library skills."
+description: "A collection of photos from traveling throughout Japan over the years."
 # creator of the digital collection, to appear in meta tags; we typically use our GitHub usernames but feel free to just use your name
-author: CollectionBuilder
+author: Sean & Mae
 
 ##########
 # COLLECTION SETTINGS
@@ -35,9 +35,9 @@ author: CollectionBuilder
 # Set the metadata for your collection 
 # This will be the full URL to your CSV file or relative path + filename of CSV in this repository 
 # e.g. relative path "/assets/demo-metadata.csv"
-# e.g. published google sheet "https://docs.google.com/spreadsheets/d/e/2PACX-1vSn7AA-cbsXT3_nNUGftc1ab-CKXOJHMQCIENeR9NHElbyI9_qA99o0-HNZdG04v-M2_N21bUe_krQQ/pub?output=csv"
+# e.g. published google sheet "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdzP0_Uu1GS1Qsec9N45d_w__Aadc5VtQxl-URzKUnuPrmdvkg1_0CZb0ytXhOfFkxp_Z36JoxYhvY/pub?output=csv"
 # e.g. on GitHub use the raw link "https://raw.githubusercontent.com/CollectionBuilder/collectionbuilder-sample-data/main/psychiana_cbdemo_gh.csv"
-metadata-csv: 
+metadata-csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdzP0_Uu1GS1Qsec9N45d_w__Aadc5VtQxl-URzKUnuPrmdvkg1_0CZb0ytXhOfFkxp_Z36JoxYhvY/pub?output=csv"
 
 ##########
 # Site/Organization Branding 
