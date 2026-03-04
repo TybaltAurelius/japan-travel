@@ -2,6 +2,7 @@ field,display_name,browse_link,external_link
 title,Title,
 creator,Creator,
 date,Date Created,
+browse_date,Date,
 description,Description,
 subject,Subjects,true
 location,Location
