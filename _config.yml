@@ -37,7 +37,7 @@ author: Sean & Mae
 # e.g. relative path "/assets/demo-metadata.csv"
 # e.g. published google sheet "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdzP0_Uu1GS1Qsec9N45d_w__Aadc5VtQxl-URzKUnuPrmdvkg1_0CZb0ytXhOfFkxp_Z36JoxYhvY/pub?output=csv"
 # e.g. on GitHub use the raw link "https://raw.githubusercontent.com/CollectionBuilder/collectionbuilder-sample-data/main/psychiana_cbdemo_gh.csv"
-metadata-csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdzP0_Uu1GS1Qsec9N45d_w__Aadc5VtQxl-URzKUnuPrmdvkg1_0CZb0ytXhOfFkxp_Z36JoxYhvY/pub?output=csv"
+metadata-csv: https://docs.google.com/spreadsheets/d/e/2PACX-1vSdzP0_Uu1GS1Qsec9N45d_w__Aadc5VtQxl-URzKUnuPrmdvkg1_0CZb0ytXhOfFkxp_Z36JoxYhvY/pub?output=csv
 
 ##########
 # Site/Organization Branding 
