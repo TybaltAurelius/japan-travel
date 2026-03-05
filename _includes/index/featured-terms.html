@@ -72,17 +72,27 @@
             terms.push([term_counts[key].display, term_counts[key].count]);
         }
 
-        // define your custom display order (for trip buttons)
+        // --- CUSTOM ORDER SECTION ---
         var customOrder = ["Fall 2023", "Spring 2024", "Fall 2025", "Spring 2026"];
-    
-        // sort terms array according to customOrder
-        terms.sort(function(a, b) {
-            var i = customOrder.indexOf(a[0]);
-            var j = customOrder.indexOf(b[0]);
-            if (i < 0) i = Infinity; // terms not listed appear at the end
-            if (j < 0) j = Infinity;
-            return i - j;
-        });
+        
+        // create two arrays: ordered and remaining
+        var orderedTerms = [];
+        var remainingTerms = [];
+        
+        // separate terms into ordered vs remaining
+        for (var i = 0; i < terms.length; i++) {
+            if (customOrder.indexOf(terms[i][0]) >= 0) {
+                orderedTerms[customOrder.indexOf(terms[i][0])] = terms[i];
+            } else {
+                remainingTerms.push(terms[i]);
+            }
+        }
+        
+        // remove any undefined holes (in case some customOrder values weren't in data)
+        orderedTerms = orderedTerms.filter(t => t !== undefined);
+        
+        // final terms array: ordered first, remaining after
+        terms = orderedTerms.concat(remainingTerms);
     
         {% if stopwords %}/* apply stopwords */
         var stopWords = {{ stopwords | downcase | split: ';' | jsonify }};
