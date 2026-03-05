@@ -1,6 +1,7 @@
 field,display_name,browse_link,external_link
 title,Title,,
 creator,Creator,,
+date_created,Creation Date,,
 date,Date Created,,
 browse_date,Date,,
 trip,Trip,TRUE,
