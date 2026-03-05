@@ -160,10 +160,7 @@ var browsePageInit = function (cb_items) {
   {% endunless %}
     
   /* randomize items once at page load */
-  /* shuffle(cb_items); */
-    
-  /* sort items by date by default */
-  sorting(cb_items, "date");
+  shuffle(cb_items);
     
   /* filter if hash in initial URL */
   if(window.location.hash) {
