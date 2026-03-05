@@ -1,5 +1,6 @@
 field,display_name,btn,hidden,sort_name
-browse_date,Date,,,Date
+browse_date,Date,,,
+date,Date Created,,True,Date
 creator,Creator,,,
 subject,,true
 objectid,Object ID,,,Object ID
