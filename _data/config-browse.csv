@@ -1,6 +1,8 @@
 field,display_name,btn,hidden,sort_name
 browse_date,Date,,,
+trip,Trip,TRUE,,
 date,Date Created,,true,Date
+location,Location,TRUE,,
 creator,Creator,,,
 subject,,true,,
 objectid,Object ID,,,Object ID
