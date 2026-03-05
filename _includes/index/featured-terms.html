@@ -21,113 +21,93 @@
 {%- endcomment -%}
 {% capture functionName %}featured_terms_{{ include.field | default: include.featured | slugify | replace: "-","_" }}{% endcapture %}
 <div class="card mb-3">
-    {% if include.header %}<{{ include.heading_level | default: 'h2' | strip }} class="card-header h5">{{ include.header }}</{{ include.heading_level | default: 'h2' | strip }}>{% endif %}
+    {% if include.header %}
+      <{{ include.heading_level | default: 'h2' | strip }} class="card-header h5">{{ include.header }}</{{ include.heading_level | default: 'h2' | strip }}>
+    {% endif %}
     <div class="card-body">
-        {% if include.title %}<{{ include.heading_level | default: 'h2' | strip }} class="card-title h5">{{ include.title }}</{{ include.heading_level | default: 'h2' | strip }}>{% endif %}
+        {% if include.title %}
+          <{{ include.heading_level | default: 'h2' | strip }} class="card-title h5">{{ include.title }}</{{ include.heading_level | default: 'h2' | strip }}>
+        {% endif %}
         <p class="card-text">
             <div id="{{ functionName }}"></div>
         </p>
     </div>
 </div>
+
 <script>
-    // set up feature function as variable
-    var {{ functionName }} = function (cb_items) { 
-        {% if include.featured %}
-        // featured terms
-        var raw_terms = "{{ include.featured }}".split(";");
-        {% else %}
-        {% if site.data.theme.browse-child-objects == false %}
-        // filter compound objects
+var {{ functionName }} = function(cb_items) { 
+    {% if include.featured %}
+      // manual featured terms
+      var raw_terms = "{{ include.featured }}".split(";");
+    {% else %}
+      {% if site.data.theme.browse-child-objects == false %}
         var cb_items = cb_items.filter(item => !item.parentid);
-        {% endif %}
-        {%- assign cloud-fields = include.field | default: "subject" | split: ";" -%}
-        // get cloud fields from metadata
-        var raw_terms = [];
-        for (var i = 0; i < cb_items.length; i++) {
-            {% for c in cloud-fields %}
+      {% endif %}
+      {%- assign cloud-fields = include.field | default: "subject" | split: ";" -%}
+      var raw_terms = [];
+      for (var i = 0; i < cb_items.length; i++) {
+          {% for c in cloud-fields %}
             if(cb_items[i][{{ c | jsonify }}]) { raw_terms.push(cb_items[i][{{ c | jsonify }}]); } 
-            {% endfor %}
-        }
-        {% endif %}
-        // split multivalued fields and clean up extra white space
-        const re = /\s*;+\s*/;
-        var clean_terms = raw_terms.join(";").split(re);
-        
-        // normalize for counting but keep original case
-        var term_counts = {};
-        
-        for (var i = 0; i < clean_terms.length; i++) {
-            var original = clean_terms[i].trim();
-            var key = original.toLowerCase();
-        
-            if (!term_counts[key]) {
-                term_counts[key] = { display: original, count: 0 };
-            }
-            term_counts[key].count++;
-        }
-        
-        // convert to array
-        var terms = [];
-        for (var key in term_counts) {
-            terms.push([term_counts[key].display, term_counts[key].count]);
-        }
+          {% endfor %}
+      }
+    {% endif %}
 
-        // --- CUSTOM ORDER SECTION ---
-        var customOrder = ["Fall 2023", "Spring 2024", "Fall 2025", "Spring 2026"];
-        
-        // create two arrays: ordered and remaining
-        var orderedTerms = [];
-        var remainingTerms = [];
-        
-        // separate terms into ordered vs remaining
-        for (var i = 0; i < terms.length; i++) {
-            if (customOrder.indexOf(terms[i][0]) >= 0) {
-                orderedTerms[customOrder.indexOf(terms[i][0])] = terms[i];
-            } else {
-                remainingTerms.push(terms[i]);
-            }
-        }
-        
-        // remove any undefined holes (in case some customOrder values weren't in data)
-        orderedTerms = orderedTerms.filter(t => t !== undefined);
-        
-        // final terms array: ordered first, remaining after
-        terms = orderedTerms.concat(remainingTerms);
-    
-        {% if stopwords %}/* apply stopwords */
-        var stopWords = {{ stopwords | downcase | split: ';' | jsonify }};
-        terms = terms.filter(function(a) { return stopWords.indexOf(a[0]) < 0;});{% endif %}
-        // sort by count
-        terms.sort(function(a, b){ return b[1] - a[1] });
-        
-        {% if include.max %}
-        // set size
-        if (terms.length > {{ include.max }}) {
-            var cloud_size = {{ include.max }};
-        } else {
-            var cloud_size = terms.length;
-        }
-        {% else %}
-        var cloud_size = terms.length;
-        {% endif %}
-        //
-        // get div
-        var cloud = document.getElementById("{{ functionName }}");
-        // create each term link
-        var cloud_items = "";
-        for (i = 0; i < cloud_size; i++) {
-            cloud_items += '<a class="btn btn-{{ include.btn-color | default: "info" }} m-1" href="{{ "/browse.html" | relative_url }}#' + encodeURIComponent(terms[i][0]) + '" >' + terms[i][0] + '</a>';
-        }
-        // add to card div
-        cloud.innerHTML = cloud_items;
+    // split multivalued fields
+    const re = /\s*;+\s*/;
+    var clean_terms = raw_terms.join(";").split(re);
 
-    };
-
-    // add feature function to includeFunctions array
-    if(includeFunctions) {
-        includeFunctions.push({{ functionName }});
-    } else {
-        var includeFunctions = [{{ functionName }}];
+    // normalize for counting but keep original case
+    var term_counts = {};
+    for (var i = 0; i < clean_terms.length; i++) {
+        var original = clean_terms[i].trim();
+        var key = original.toLowerCase();
+        if (!term_counts[key]) { term_counts[key] = { display: original, count: 0 }; }
+        term_counts[key].count++;
     }
 
+    // convert to array
+    var terms = [];
+    for (var key in term_counts) { terms.push([term_counts[key].display, term_counts[key].count]); }
+
+    {% if stopwords %}
+      var stopWords = {{ stopwords | downcase | split: ';' | jsonify }};
+      terms = terms.filter(function(a) { return stopWords.indexOf(a[0]) < 0; });
+    {% endif %}
+
+    // --- CUSTOM ORDER SECTION ---
+    {% if include.custom_order %}
+      var customOrder = {{ include.custom_order | jsonify }};
+      var orderedTerms = [];
+      // first, push terms in the custom order
+      for (var i = 0; i < customOrder.length; i++) {
+          for (var j = 0; j < terms.length; j++) {
+              if (terms[j][0] === customOrder[i]) { orderedTerms.push(terms[j]); break; }
+          }
+      }
+      // push any remaining terms
+      for (var j = 0; j < terms.length; j++) {
+          if (customOrder.indexOf(terms[j][0]) < 0) { orderedTerms.push(terms[j]); }
+      }
+      terms = orderedTerms;
+    {% endif %}
+
+    // determine cloud size
+    {% if include.max %}
+      var cloud_size = Math.min(terms.length, {{ include.max }});
+    {% else %}
+      var cloud_size = terms.length;
+    {% endif %}
+
+    // generate buttons
+    var cloud = document.getElementById("{{ functionName }}");
+    var cloud_items = "";
+    for (var i = 0; i < cloud_size; i++) {
+        cloud_items += '<a class="btn btn-{{ include.btn-color | default: "info" }} m-1" href="{{ "/browse.html" | relative_url }}#' + encodeURIComponent(terms[i][0]) + '" >' + terms[i][0] + '</a>';
+    }
+    cloud.innerHTML = cloud_items;
+};
+
+// add to includeFunctions
+if (includeFunctions) { includeFunctions.push({{ functionName }}); } 
+else { var includeFunctions = [{{ functionName }}]; }
 </script>
