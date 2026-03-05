@@ -51,14 +51,25 @@
         {% endif %}
         // split multivalued fields and clean up extra white space
         const re = /\s*;+\s*/;
-        var clean_terms = raw_terms.join(";").toLowerCase().split(re);
-        // find unique terms
-        var unique_terms = clean_terms.filter(function(value, index, self) { return self.indexOf(value) === index; });
-        // count unique values 
+        var clean_terms = raw_terms.join(";").split(re);
+        
+        // normalize for counting but keep original case
+        var term_counts = {};
+        
+        for (var i = 0; i < clean_terms.length; i++) {
+            var original = clean_terms[i].trim();
+            var key = original.toLowerCase();
+        
+            if (!term_counts[key]) {
+                term_counts[key] = { display: original, count: 0 };
+            }
+            term_counts[key].count++;
+        }
+        
+        // convert to array
         var terms = [];
-        for (var i = 0; i < unique_terms.length; i++) {
-            var count = clean_terms.filter(function(t) { return t == unique_terms[i] }).length;
-            terms.push([unique_terms[i],count]);
+        for (var key in term_counts) {
+            terms.push([term_counts[key].display, term_counts[key].count]);
         }
         {% if stopwords %}/* apply stopwords */
         var stopWords = {{ stopwords | downcase | split: ';' | jsonify }};
