@@ -5,18 +5,42 @@ permalink: /trips.html
 ---
 
 <div class="row">
-{% assign trips = "Fall 2023,Spring 2024,Fall 2025,Spring 2026" | split: "," %}
-{% for trip in trips %}
-  <div class="col-md-3 mb-3">
-    <div class="card h-100 text-center">
-      <div class="card-body">
-        <h5 class="card-title">Explore {{ trip }} Trip</h5>
-        <p class="card-text">Click below to see all pics and videos for the {{ trip }} Trip</p>
-        <a href="{{ '/browse.html' | relative_url }}#{{ trip | uri_escape }}" class="btn btn-primary">
-          View {{ trip }} Trip
-        </a>
+{% assign custom_order = "Fall 2023,Spring 2024,Fall 2025,Spring 2026" | split: "," %}
+
+{% assign all_trips = site.data.collections | map: "trip" | uniq %}
+{% assign trips = "" | split: "" %}
+
+{%- comment -%} Sort trips according to custom_order {%- endcomment -%}
+{% for trip_name in custom_order %}
+  {% if all_trips contains trip_name %}
+    {% assign trips = trips | push: trip_name %}
+  {% endif %}
+{% endfor %}
+
+{%- comment -%} Add any remaining trips not in custom_order {%- endcomment -%}
+{% for trip_name in all_trips %}
+  {% unless trips contains trip_name %}
+    {% assign trips = trips | push: trip_name %}
+  {% endunless %}
+{% endfor %}
+
+{%- for trip in trips -%}
+  {% assign trip_object = site.data.collections | where: "trip", trip | first %}
+  {% if trip_object %}
+    <div class="col-md-3 mb-3">
+      <div class="card h-100 text-center">
+        {% if trip_object.thumbnail %}
+          <img src="{{ trip_object.thumbnail | relative_url }}" class="card-img-top" alt="{{ trip }}">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">Explore {{ trip }} Trip</h5>
+          <p class="card-text">Click below to see all items for the {{ trip }} Trip</p>
+          <a href="{{ '/browse.html' | relative_url }}#{{ trip | uri_escape }}?sort=date" class="btn btn-primary">
+            View {{ trip }} Trip
+          </a>
+        </div>
       </div>
     </div>
-  </div>
+  {% endif %}
 {% endfor %}
 </div>
