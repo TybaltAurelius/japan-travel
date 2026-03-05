@@ -71,6 +71,19 @@
         for (var key in term_counts) {
             terms.push([term_counts[key].display, term_counts[key].count]);
         }
+
+        // define your custom display order (for trip buttons)
+        var customOrder = ["Fall 2023", "Spring 2024", "Fall 2025", "Spring 2026"];
+    
+        // sort terms array according to customOrder
+        terms.sort(function(a, b) {
+            var i = customOrder.indexOf(a[0]);
+            var j = customOrder.indexOf(b[0]);
+            if (i < 0) i = Infinity; // terms not listed appear at the end
+            if (j < 0) j = Infinity;
+            return i - j;
+        });
+    
         {% if stopwords %}/* apply stopwords */
         var stopWords = {{ stopwords | downcase | split: ';' | jsonify }};
         terms = terms.filter(function(a) { return stopWords.indexOf(a[0]) < 0;});{% endif %}
