@@ -1,8 +1,8 @@
 field,display_name,btn,hidden,sort_name
 browse_date,Date,,,
-date,Date Created,,True,Date
+date,Date Created,,true,Date
 creator,Creator,,,
-subject,,true
+subject,,true,,
 objectid,Object ID,,,Object ID
 description,Description,,,
-location,,true
+location,,true,,
