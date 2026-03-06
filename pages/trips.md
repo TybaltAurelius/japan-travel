@@ -5,7 +5,7 @@ permalink: /trips.html
 ---
 
 <div class="row">
-{% assign trips = "Fall 2023:japan_m_00251,Spring 2024:japan2024_s_0098,Fall 2025:japan2025_s_0319,Spring 2026:japan_m_00065" | split: "," %}
+{% assign trips = "Fall 2023:japan_m_00251,Spring 2024:japan2024_s_0098,Fall 2025:japan2025_s_0034,Spring 2026:japan_m_00065" | split: "," %}
 
 {% for trip_pair in trips %}
   {% assign parts = trip_pair | split: ":" %}
