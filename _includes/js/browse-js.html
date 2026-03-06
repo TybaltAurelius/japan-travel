@@ -158,8 +158,13 @@ var browsePageInit = function (cb_items) {
   // filter compound objects
   var cb_items = cb_items.filter(item => !item.parentid);
   {% endunless %}
+    
   /* randomize items once at page load */
-  shuffle(cb_items);
+  /* shuffle(cb_items); */
+    
+  /* sort items by date by default */
+  sorting(cb_items, "date");
+    
   /* filter if hash in initial URL */
   if(window.location.hash) {
       var hashValue = decodeURIComponent(location.hash.substr(1));
